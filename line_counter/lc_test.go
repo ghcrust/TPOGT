@@ -3,8 +3,6 @@ package lcounter_test
 import (
 	"bytes"
 	"lcounter"
-	"os"
-	"path/filepath"
 	"testing"
 
 	"github.com/rogpeppe/go-internal/testscript"
@@ -20,16 +18,18 @@ func Test(t *testing.T) {
 	t.Parallel()
 	testscript.Run(t, testscript.Params{
 		Dir: "testdata/script",
-		Setup: func(env *testscript.Env) error {
-			src := "testdata/three_lines.txt"
-			dst := filepath.Join(env.WorkDir, "three_lines.txt")
+		/*
+			Setup: func(env *testscript.Env) error {
+				src := "testdata/three_lines.txt"
+				dst := filepath.Join(env.WorkDir, "three_lines.txt")
 
-			data, err := os.ReadFile(src)
-			if err != nil {
-				t.Fatal(err)
-			}
-			return os.WriteFile(dst, data, 0644)
-		},
+				data, err := os.ReadFile(src)
+				if err != nil {
+					t.Fatal(err)
+				}
+				return os.WriteFile(dst, data, 0644)
+			},
+		*/
 	})
 }
 
