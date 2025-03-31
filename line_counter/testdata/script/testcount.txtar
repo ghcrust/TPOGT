@@ -1,0 +1,3 @@
+stdin three_lines.txt
+exec lcounter
+stdout '^3\n$'

@@ -5,9 +5,11 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"os"
 )
 
 type Counter struct {
+	files  []io.Reader
 	reader io.Reader
 	writer io.Writer
 }
@@ -31,6 +33,32 @@ func WithOutput(w io.Writer) option {
 			return errors.New("nil writer")
 		}
 		c.writer = w
+		return nil
+	}
+}
+
+func WithInputFromArgs(args []string) option {
+	return func(c *Counter) error {
+		if len(args) < 1 {
+			return nil
+		}
+		c.files = make([]io.Reader, len(args))
+		for i, f := range args {
+			file, err := os.Open(f)
+			//defer file.Close()
+			if err != nil {
+				return err
+			}
+			c.files[i] = file
+			/*
+				r, _ := io.ReadAll(file)
+				reader := bytes.NewReader(r)
+				/ reader := new(bytes.Buffer)
+				// reader.WriteFrom(file)
+				c.reader = reader
+			*/
+		}
+		c.reader = io.MultiReader(c.files...)
 		return nil
 	}
 }
@@ -64,13 +92,26 @@ func (c *Counter) Count() int {
 	for scanner.Scan() {
 		lines++
 	}
+	for _, file := range c.files {
+		file.(io.Closer).Close()
+	}
 	return lines
 }
 
 func Main() {
-	c, err := NewCounter()
+	/*
+		var c *Counter
+		var err error
+		if len(os.Args) > 1 {
+			c, err = NewCounter(WithInputFromArgs(os.Args[1:]))
+		} else {
+			c, err = NewCounter(WithInput(os.Stdin))
+		}
+	*/
+	c, err := NewCounter(WithInput(os.Stdin))
 	if err != nil {
-		panic(err)
+		fmt.Fprintln(os.Stderr, err)
+	} else {
+		fmt.Println(c.Count())
 	}
-	fmt.Println(c.Count())
 }

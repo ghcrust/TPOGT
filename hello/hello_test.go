@@ -8,11 +8,14 @@ import (
 
 func TestPrintHelloToWriter(t *testing.T) {
 	t.Parallel()
+	printer := hello.NewPrinter()
 	buf := new(bytes.Buffer)
-	hello.SayHelloNameToWriter(buf, "x")
+	printer.DefaultWriter = buf
+	printer.PrintHelloName("x")
 	want := "Hello, x"
 	got := buf.String()
 	if want != got {
 		t.Errorf("want %q got %q", want, got)
 	}
 }
+
