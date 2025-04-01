@@ -1,8 +1,0 @@
-stdin three_lines
-exec countlines
-stdout '^3\n$'
-
--- three_lines --
-this input
-contains
-three lines

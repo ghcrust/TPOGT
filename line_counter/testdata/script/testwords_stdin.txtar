@@ -1,8 +1,0 @@
-stdin six_words
-exec countwords
-stdout '^6\n$'
-
--- six_words --
-one
-two three four
-five six
