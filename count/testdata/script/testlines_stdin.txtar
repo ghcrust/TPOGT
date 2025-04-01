@@ -1,0 +1,8 @@
+stdin three_lines
+exec count -lines
+stdout '^3\n$'
+
+-- three_lines --
+this input
+contains
+three lines
