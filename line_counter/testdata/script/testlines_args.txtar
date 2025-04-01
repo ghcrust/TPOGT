@@ -1,0 +1,9 @@
+exec countlines one_line three_lines
+stdout '^4\n$'
+
+-- one_line --
+1
+-- three_lines --
+1
+2
+3

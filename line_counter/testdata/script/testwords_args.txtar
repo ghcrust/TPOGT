@@ -1,0 +1,10 @@
+exec countwords one_word three_words
+stdout '^4\n$'
+
+-- one_word --
+word
+
+-- three_words --
+one
+two three
+

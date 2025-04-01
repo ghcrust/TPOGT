@@ -1,5 +1,5 @@
 stdin three_lines
-exec lcounter
+exec countlines
 stdout '^3\n$'
 
 -- three_lines --
