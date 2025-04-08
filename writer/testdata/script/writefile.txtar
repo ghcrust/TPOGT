@@ -1,0 +1,26 @@
+
+#tests -size 1000 
+! exists zeroes.dat
+exec writefile -size 1000 zeroes.dat
+exec mkfile 1000 correct.dat
+cmp zeroes.dat correct.dat
+
+#tests no args
+! exists empty.dat
+exec writefile empty.dat
+exists empty.dat
+exec mkfile 0 nothing.dat
+cmp empty.dat nothing.dat
+
+#tests with size and no path
+exec writefile -size 1000
+stderr 'No file path to write specified\n'
+
+#tests size arg without value
+exec writefile -size 1000
+stderr 'No file path to write specified\n'
+
+#tests no args
+exec writefile
+stderr 'No file path to write'
+
